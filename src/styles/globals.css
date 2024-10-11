@@ -20,6 +20,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Background blur */
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

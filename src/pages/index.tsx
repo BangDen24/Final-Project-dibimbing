@@ -1,10 +1,12 @@
-import Image from "next/image";
-import localFont from "next/font/local";
+import ProtectedRoute from "@/config/ProtectedRoute";
+import HomePage from "@/components/features/homePage/home";
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className="w-screen h-[100vh] flex flex-col justify-center items-center">
-      <h1 className="text-pink-300 text-7xl">Hello World</h1>
-    </div>
+    <ProtectedRoute>
+      <HomePage />
+    </ProtectedRoute>
   );
-}
+};
+
+export default Home;
