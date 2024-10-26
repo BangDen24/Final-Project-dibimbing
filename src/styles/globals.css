@@ -27,6 +27,15 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
+.masonry-column {
+  background-clip: padding-box;
+}
+
+/* Optional: add some padding to the columns */
+.masonry-column > div {
+  padding: 0 8px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

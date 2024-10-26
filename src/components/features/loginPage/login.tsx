@@ -33,26 +33,28 @@ const LoginComponent: React.FC<Props> = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-sky-500 to-indigo-500">
+    <div className="w-screen h-[100vh] flex flex-col justify-center items-center bg-gray-50">
       <div className="p-6 glassmorphism bg-opacity-10 rounded-lg shadow-md w-96">
-        <h1 className="mb-4 text-2xl font-bold text-center">Login</h1>
+        <h1 className="mb-4 text-2xl font-bold text-center text-gray-900">
+          Snap<span className="text-green-700">Feed</span>
+        </h1>
         {error && <Alert variant="destructive">{error}</Alert>}
         {message && <Alert variant="default">{message}</Alert>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-900">
               Email
             </label>
             <Input
               className="border-opacity-5"
-              type="text"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-900">
               Password
             </label>
             <Input
@@ -63,12 +65,21 @@ const LoginComponent: React.FC<Props> = ({ onLogin }) => {
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full bg-gray-900 hover:bg-green-500 hover:text-gray-900 text-white font-bold"
+          >
             Login
           </Button>
         </form>
-        <p className="mt-4">
-          Have and account? <a href="/register">Register</a>
+        <p className="mt-4 text-gray-900">
+          Don't have an account?{" "}
+          <a
+            href="/register"
+            className="text-gray-900 hover:text-green-600 font-bold"
+          >
+            Register
+          </a>
         </p>
       </div>
     </div>

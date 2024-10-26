@@ -25,14 +25,13 @@ interface Post {
 
 const PostPage: React.FC = () => {
   const router = useRouter();
-  const { id : postId } = router.query;
+  const { id: postId } = router.query;
   const [post, setPost] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log(postId)
     const fetchPost = async () => {
-      if (!postId) return; 
+      if (!postId) return;
 
       try {
         const response = await getPostById(postId as string); // Call your API function
@@ -60,37 +59,46 @@ const PostPage: React.FC = () => {
 
   return (
     <div className="h-full p-4 flex flex-col justify-center items-center">
-      <div className="mb-4">
-        <img
-          src={post.imageUrl}
-          alt={post.caption}
-          className="w-28 h-auto rounded"
-        />
+      <div className="w-[50vw]">
+        <div className="mb-4">
+          <img
+            src={post.imageUrl}
+            alt={post.caption}
+            className="w-[50vw] h-auto rounded"
+          />
+        </div>
+        <div className="flex items-center justify-start w-full h-auto mb-2 gap-2">
+          <img
+            src={post.user.profilePictureUrl}
+            alt={post.user.username}
+            className="w-10 h-10 rounded-full mr-2"
+          />
+          <div className="flex flex-col">
+            <p className="font-bold text-gray-900">{post.user.username}</p>
+            <p className="text-gray-900">{post.caption}</p>
+          </div>
+        </div>
+        <h3 className="font-bold text-gray-900 mb-3">Comments:</h3>
+        <ul className="space-y-2 text-gray-900">
+          {post.comments.map((comment) => (
+            <li key={comment.id} className="flex items-start space-x-2">
+              <img
+                src={comment.user.profilePictureUrl}
+                alt={comment.user.username}
+                className="w-8 h-8 rounded-full"
+              />
+              <div className="flex flex-col">
+                <div className="flex items-center">
+                  <p className="font-bold text-gray-900">
+                    {comment.user.username}
+                  </p>
+                  <span className="text-gray-700 ml-2">{comment.comment}</span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="flex items-center mb-2">
-        <img
-          src={post.user.profilePictureUrl}
-          alt={post.user.username}
-          className="w-10 h-10 rounded-full mr-2"
-        />
-        <span className="font-bold">{post.user.username}</span>
-      </div>
-      <p className="mb-4">{post.caption}</p>
-      <h3 className="font-bold">Comments:</h3>
-      <ul className="space-y-2">
-        {post.comments.map((comment) => (
-          <li key={comment.id} className="flex items-center">
-            <img
-              src={comment.user.profilePictureUrl}
-              alt={comment.user.username}
-              className="w-8 h-8 rounded-full mr-2"
-            />
-            <span>
-              <strong>{comment.user.username}</strong>: {comment.comment}
-            </span>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
