@@ -71,6 +71,10 @@ const PostPage: React.FC = () => {
           <img
             src={post.user.profilePictureUrl}
             alt={post.user.username}
+            onError={(e) => {
+              e.currentTarget.src =
+                "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+            }}
             className="w-10 h-10 rounded-full mr-2"
           />
           <div className="flex flex-col">

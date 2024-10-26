@@ -142,6 +142,10 @@ const Profile = () => {
         <img
           src={user.profilePictureUrl}
           alt={user.username}
+          onError={(e) => {
+            e.currentTarget.src =
+              "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+          }}
           className="w-24 h-24 rounded-full"
         />
         <h1 className="text-2xl font-bold text-black">{user.username}</h1>

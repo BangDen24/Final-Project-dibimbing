@@ -1,16 +1,20 @@
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { House, CircleUser, LogOut, Compass } from "lucide-react";
+import { House, CircleUser, LogOut, Compass, PlusCircle } from "lucide-react";
+import ImageUploadPost from "../features/createPost/create"; // Pastikan path sudah sesuai
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
+  const [showCreatePost, setShowCreatePost] = useState(false);
 
   const handleLogout = () => {
-    // Hapus token atau informasi login dari localStorage
     localStorage.removeItem("token");
-
-    // Redirect ke halaman login setelah logout
     router.push("/login");
+  };
+
+  const toggleCreatePost = () => {
+    setShowCreatePost((prev) => !prev);
   };
 
   return (
@@ -45,10 +49,23 @@ const Sidebar: React.FC = () => {
                 </button>
               </Link>
             </li>
+            <li>
+              <button
+                onClick={toggleCreatePost}
+                className="flex items-center gap-3 font-bold"
+              >
+                <PlusCircle size={30} strokeWidth="2" />
+                Create Post
+              </button>
+            </li>
           </ul>
         </nav>
+        {showCreatePost && (
+          <div className="mt-4">
+            <ImageUploadPost />
+          </div>
+        )}
       </div>
-
       <div className="p-6 ml-[1vw]">
         <button
           onClick={handleLogout}

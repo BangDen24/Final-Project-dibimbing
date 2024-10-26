@@ -55,10 +55,15 @@ const Home = () => {
             ...post,
             isLiked: post.isLiked || false,
             showCommentInput: false,
-            comments: postResponse.data.data.comments || [],
+            comments: postResponse.data.data.comments.map((c: any) => ({
+              id: c.id,
+              content: c.comment,
+              user: c.user,
+            })),
           };
         })
       );
+      console.log("Posts with comments :", postsData);
       setPosts(postsData);
     } catch (err: any) {
       console.error("Fetch Error:", err);
@@ -171,6 +176,10 @@ const Home = () => {
                   src={post.user?.profilePictureUrl}
                   alt={post.user?.username}
                   className="w-8 h-8 rounded-full"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+                  }}
                 />
                 <span className="ml-2 font-bold text-xl">
                   {post.user?.username}
@@ -181,6 +190,10 @@ const Home = () => {
               <img
                 src={post.imageUrl}
                 alt={post.caption}
+                onError={(e) => {
+                  e.currentTarget.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+                }}
                 className="self-center object-cover w-full h-[50%] rounded-md cursor-pointer"
                 onClick={() => handlePostClick(post.id)}
               />
@@ -202,7 +215,7 @@ const Home = () => {
                 }}
               >
                 <Heart
-                  color={post.isLiked ? "red" : "white"}
+                  color={post.isLiked ? "red" : "black"}
                   fill={post.isLiked ? "red" : "none"}
                 />
               </button>

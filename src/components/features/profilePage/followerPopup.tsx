@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { CirclePlus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 interface Follower {
   id: string;
@@ -31,7 +31,7 @@ const FollowerPopup: React.FC<FollowerPopupProps> = ({
           className="mt-4 w-[25%] bg-transparent text-white px-4 py-2 rounded right-0 flex justify-end self-end"
           onClick={onClose}
         >
-          <CirclePlus className="rotate-45 h-7 w-7 hover:text-pink-300 hover:rotate-0 transition ease-linear duration-200" />
+          <Plus className="rotate-45 h-7 w-7 hover:text-pink-300 hover:rotate-0 transition ease-linear duration-200" />
         </button>
 
         <h2 className="text-lg font-bold mb-4 text-white">Followers</h2>
