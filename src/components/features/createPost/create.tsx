@@ -6,26 +6,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { uploadImage, createPost } from "@/api/api";
 
 const ImageUploadPost = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Menggunakan ref untuk file input
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Menghandle perubahan file input
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
       setError("");
     }
   };
 
-  // Menghandle submit form
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     setError("");
@@ -40,11 +37,9 @@ const ImageUploadPost = () => {
         throw new Error("Please enter a caption");
       }
 
-      // Upload image terlebih dahulu
       const uploadResponse = await uploadImage(selectedFile);
-      const imageUrl = uploadResponse.data.url; // Pastikan API mengembalikan URL gambar
+      const imageUrl = uploadResponse.data.url;
 
-      // Membuat post dengan URL image
       await createPost({
         imageUrl,
         caption: caption.trim(),
@@ -54,12 +49,13 @@ const ImageUploadPost = () => {
       setCaption("");
       setSelectedFile(null);
 
-      // Reset file input menggunakan ref
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
     } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setError(
+        (err as Error).message || "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -77,7 +73,7 @@ const ImageUploadPost = () => {
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              ref={fileInputRef} // Menggunakan ref untuk akses file input
+              ref={fileInputRef}
               className="w-full"
               disabled={loading}
             />
