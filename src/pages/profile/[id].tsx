@@ -11,7 +11,7 @@ const Profile = () => {
 
   return (
     <div>
-      <ProfileComponent user={userId} />
+      <ProfileComponent />
     </div>
   );
 };
