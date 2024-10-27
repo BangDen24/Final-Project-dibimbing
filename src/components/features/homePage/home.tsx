@@ -5,11 +5,12 @@ import {
   createComment,
   likePost,
   unlikePost,
+  deleteComment
 } from "@/api/api";
 import { useRouter } from "next/router";
 import { Card } from "../../ui/card";
 import { Alert } from "../../ui/alert";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, Plus } from "lucide-react";
 
 interface User {
   id: string;
@@ -144,6 +145,31 @@ const Home = () => {
       );
     }
   };
+   const handleCommentDelete = async (postId: string, commentId: string) => {
+     try {
+       await deleteComment(commentId);
+       // Update state untuk menghapus komentar
+       setPosts((prevPosts) =>
+         prevPosts.map((post) =>
+           post.id === postId
+             ? {
+                 ...post,
+                 comments: post.comments.filter(
+                   (comment) => comment.id !== commentId
+                 ),
+               }
+             : post
+         )
+       );
+     } catch (err: any) {
+       console.error("Delete Comment Error:", err);
+       setError(
+         err.response?.data?.message ||
+           err.message ||
+           "Failed to delete comment"
+       );
+     }
+   };
 
   const toggleCommentInput = (index: number) => {
     setPosts((prevPosts) =>
@@ -220,14 +246,14 @@ const Home = () => {
                 />
               </button>
               <button onClick={() => toggleCommentInput(index)}>
-                <MessageCircle color="white" />
+                <MessageCircle color="black" />
               </button>
             </div>
             {post.showCommentInput && (
               <div className="mt-4 flex items-center">
                 <input
                   type="text"
-                  className="border rounded-lg p-2 flex-grow bg-transparent text-gray-900 placeholder-gray-400 border-gray-500"
+                  className=" rounded-lg p-2 flex-grow bg-transparent text-gray-900 placeholder-gray-400 border-gray-500"
                   placeholder="Write a comment..."
                   value={newComment[post.id] || ""}
                   onChange={(e) =>
@@ -238,7 +264,7 @@ const Home = () => {
                   }
                 />
                 <button
-                  className="bg-blue-500 text-gray-900 rounded-lg px-4 py-2 ml-2"
+                  className="bg-green-700 text-white hover:text-green-700 hover:bg-white rounded-lg px-4 py-2 ml-2"
                   onClick={() => handleCommentSubmit(post.id)}
                 >
                   Submit
@@ -256,6 +282,9 @@ const Home = () => {
                       {comment.user.username}:
                     </span>
                     <span className="text-gray-800">{comment.content}</span>
+                    <button onClick={() =>handleCommentDelete(post.id, comment.id)}>
+                      <Plus className="rotate-45 h-7 w-7 hover:text-pink-300 hover:rotate-0 transition ease-linear duration-200" />
+                    </button>
                   </div>
                 ))
               ) : (
